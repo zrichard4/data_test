@@ -1,0 +1,527 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Chicago Raw",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "delete from dbo.chi_raw",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "inspection_id"
+								},
+								"sink": {
+									"name": "id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "dba_name"
+								},
+								"sink": {
+									"name": "dba_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "aka_name"
+								},
+								"sink": {
+									"name": "aka_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "license_"
+								},
+								"sink": {
+									"name": "license",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "facility_type"
+								},
+								"sink": {
+									"name": "facility",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "risk"
+								},
+								"sink": {
+									"name": "risk",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "address"
+								},
+								"sink": {
+									"name": "address",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "city"
+								},
+								"sink": {
+									"name": "city",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "zip"
+								},
+								"sink": {
+									"name": "zip",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "inspection_date"
+								},
+								"sink": {
+									"name": "inspection_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "inspection_type"
+								},
+								"sink": {
+									"name": "inspection_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "results"
+								},
+								"sink": {
+									"name": "results",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "latitude"
+								},
+								"sink": {
+									"name": "lat",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "longitude"
+								},
+								"sink": {
+									"name": "lon",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "location.latitude"
+								},
+								"sink": {
+									"name": "location_lat",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "location.longitude"
+								},
+								"sink": {
+									"name": "location_lon",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "violations"
+								},
+								"sink": {
+									"name": "violations",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ChicagoInspection",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "chi_raw",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "NYC Raw",
+				"description": "",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "delete from dbo.nyc_raw",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "camis"
+								},
+								"sink": {
+									"name": "id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "dba"
+								},
+								"sink": {
+									"name": "dba",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "boro"
+								},
+								"sink": {
+									"name": "boro",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "building"
+								},
+								"sink": {
+									"name": "building",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "street"
+								},
+								"sink": {
+									"name": "street",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "zipcode"
+								},
+								"sink": {
+									"name": "zipcode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "phone"
+								},
+								"sink": {
+									"name": "phone",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "cuisine_description"
+								},
+								"sink": {
+									"name": "cuisine",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "inspection_date"
+								},
+								"sink": {
+									"name": "inspection_date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "action"
+								},
+								"sink": {
+									"name": "action",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "violation_code"
+								},
+								"sink": {
+									"name": "violation_cd",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "violation_description"
+								},
+								"sink": {
+									"name": "violation_desc",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "critical_flag"
+								},
+								"sink": {
+									"name": "critical",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "score"
+								},
+								"sink": {
+									"name": "score",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "grade"
+								},
+								"sink": {
+									"name": "grade",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "grade_date"
+								},
+								"sink": {
+									"name": "grade_dt",
+									"type": "Date"
+								}
+							},
+							{
+								"source": {
+									"path": "record_date"
+								},
+								"sink": {
+									"name": "record_dt",
+									"type": "Date"
+								}
+							},
+							{
+								"source": {
+									"path": "inspection_type"
+								},
+								"sink": {
+									"name": "inpection_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "latitude"
+								},
+								"sink": {
+									"name": "lat",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "longitude"
+								},
+								"sink": {
+									"name": "lon",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "community_board"
+								},
+								"sink": {
+									"name": "community",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "council_district"
+								},
+								"sink": {
+									"name": "council",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "census_tract"
+								},
+								"sink": {
+									"name": "census_tract",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "bin"
+								},
+								"sink": {
+									"name": "bin",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "bbl"
+								},
+								"sink": {
+									"name": "bbl",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "nta"
+								},
+								"sink": {
+									"name": "nta",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NYCInspection",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "nyc_raw",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "dataflow1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "NYC Raw",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Chicago Raw",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow1",
+						"type": "DataFlowReference"
+					}
+				}
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

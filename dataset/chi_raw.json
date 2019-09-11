@@ -1,0 +1,93 @@
+{
+	"name": "chi_raw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "dba_name",
+				"type": "varchar"
+			},
+			{
+				"name": "aka_name",
+				"type": "varchar"
+			},
+			{
+				"name": "license",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "facility",
+				"type": "varchar"
+			},
+			{
+				"name": "risk",
+				"type": "varchar"
+			},
+			{
+				"name": "address",
+				"type": "varchar"
+			},
+			{
+				"name": "city",
+				"type": "varchar"
+			},
+			{
+				"name": "state",
+				"type": "varchar"
+			},
+			{
+				"name": "zip",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "inspection_date",
+				"type": "date"
+			},
+			{
+				"name": "inspection_type",
+				"type": "varchar"
+			},
+			{
+				"name": "results",
+				"type": "varchar"
+			},
+			{
+				"name": "violations",
+				"type": "varchar"
+			},
+			{
+				"name": "lat",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 6
+			},
+			{
+				"name": "lon",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 6
+			},
+			{
+				"name": "location",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "chi_raw"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
