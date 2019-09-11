@@ -1,0 +1,48 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "chi_raw",
+						"type": "DatasetReference"
+					},
+					"name": "chi"
+				},
+				{
+					"dataset": {
+						"referenceName": "nyc_raw",
+						"type": "DatasetReference"
+					},
+					"name": "nyc"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "SelectNYC"
+				},
+				{
+					"name": "SelectCHI"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tid as integer,\n\t\tdba_name as string,\n\t\taka_name as string,\n\t\tlicense as integer,\n\t\tfacility as string,\n\t\trisk as string,\n\t\taddress as string,\n\t\tcity as string,\n\t\tstate as string,\n\t\tzip as integer,\n\t\tinspection_date as date,\n\t\tinspection_type as string,\n\t\tresults as string,\n\t\tviolations as string,\n\t\tlat as decimal(9,6),\n\t\tlon as decimal(9,6),\n\t\tlocation as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> chi\nsource(output(\n\t\tid as string,\n\t\tdba as string,\n\t\tboro as string,\n\t\tbuilding as string,\n\t\tstreet as string,\n\t\tzipcode as string,\n\t\tphone as string,\n\t\tcuisine as string,\n\t\tinspection_date as string,\n\t\taction as string,\n\t\tviolation_cd as string,\n\t\tviolation_desc as string,\n\t\tcritical as string,\n\t\tscore as integer,\n\t\tgrade as string,\n\t\tgrade_dt as date,\n\t\trecord_dt as date,\n\t\tinpection_type as string,\n\t\tlat as string,\n\t\tlon as string,\n\t\tcommunity as integer,\n\t\tcouncil as integer,\n\t\tcensus_tract as integer,\n\t\tbin as integer,\n\t\tbbl as string,\n\t\tnta as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> nyc\nnyc derive(address_1 = concat(building, ' ', street),\n\t\tCity = 'New York',\n\t\tState = 'NY',\n\t\tid = toInteger(id),\n\t\tzipcode = toInteger(zipcode),\n\t\tinspection_date = toDate(inspection_date),\n\t\tlat = toDecimal(lat),\n\t\tlon = toDecimal(lon)) ~> DerivedColumn1\nDerivedColumn1 select(mapColumn(\n\t\tid,\n\t\tdba_name = dba,\n\t\taddress_1,\n\t\taddress_2 = City,\n\t\taddress_3 = State,\n\t\taddress_4 = boro,\n\t\tzip = zipcode,\n\t\tphone,\n\t\tcuisine,\n\t\tinspection_date,\n\t\taction,\n\t\tviolation_cd,\n\t\tviolations = violation_desc,\n\t\tcritical,\n\t\tscore,\n\t\tgrade,\n\t\tgrade_dt,\n\t\trecord_dt,\n\t\tinpection_type,\n\t\tlat,\n\t\tlon,\n\t\tcommunity,\n\t\tcouncil,\n\t\tcensus_tract,\n\t\tbin,\n\t\tbbl,\n\t\tnta\n\t)) ~> SelectNYC\nchi select(mapColumn(\n\t\tid,\n\t\tdba_name,\n\t\taka_name,\n\t\tlicense,\n\t\tfacility,\n\t\trisk,\n\t\taddress_1 = address,\n\t\taddress_2 = city,\n\t\taddress_3 = state,\n\t\tzip,\n\t\tinspection_date,\n\t\tinspection_type,\n\t\tgrade = results,\n\t\tviolations,\n\t\tlat,\n\t\tlon,\n\t\tlocation\n\t)) ~> SelectCHI\nSelectCHI, SelectNYC union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tpreSQLs:['delete from dbo.inspections_joined']) ~> sink1"
+		}
+	}
+}

@@ -1,0 +1,127 @@
+{
+	"name": "nyc_raw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "varchar"
+			},
+			{
+				"name": "dba",
+				"type": "varchar"
+			},
+			{
+				"name": "boro",
+				"type": "varchar"
+			},
+			{
+				"name": "building",
+				"type": "varchar"
+			},
+			{
+				"name": "street",
+				"type": "varchar"
+			},
+			{
+				"name": "zipcode",
+				"type": "varchar"
+			},
+			{
+				"name": "phone",
+				"type": "varchar"
+			},
+			{
+				"name": "cuisine",
+				"type": "varchar"
+			},
+			{
+				"name": "inspection_date",
+				"type": "varchar"
+			},
+			{
+				"name": "action",
+				"type": "varchar"
+			},
+			{
+				"name": "violation_cd",
+				"type": "varchar"
+			},
+			{
+				"name": "violation_desc",
+				"type": "varchar"
+			},
+			{
+				"name": "critical",
+				"type": "varchar"
+			},
+			{
+				"name": "score",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "grade",
+				"type": "varchar"
+			},
+			{
+				"name": "grade_dt",
+				"type": "date"
+			},
+			{
+				"name": "record_dt",
+				"type": "date"
+			},
+			{
+				"name": "inpection_type",
+				"type": "varchar"
+			},
+			{
+				"name": "lat",
+				"type": "varchar"
+			},
+			{
+				"name": "lon",
+				"type": "varchar"
+			},
+			{
+				"name": "community",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "council",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "census_tract",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "bin",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "bbl",
+				"type": "varchar"
+			},
+			{
+				"name": "nta",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "nyc_raw"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
